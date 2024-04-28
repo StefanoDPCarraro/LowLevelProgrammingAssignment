@@ -75,7 +75,7 @@ int main() {
     unsigned short *r12 = base_address + 0x0c;
     unsigned short *r13 = base_address + 0x0d;
     unsigned short *r14 = base_address + 0x0e;
-    unsigned short *r15 = base_address + 0x0f;\
+    unsigned short *r15 = base_address + 0x0f;
     
     printf("Current value of R0: 0x%02x\n", *r0);
     printf("Current value of R1: 0x%02x\n", *r1);
@@ -113,42 +113,51 @@ int main() {
             break;
 
         case 2:
+            int opcao_case2 = 0;
             printf("Opções de ações do modo de exibição: \n");
             printf("1 - estático \n");
             printf("2 - deslizante \n");
             printf("3 - piscante \n");
             printf("4 - deslizante/piscante \n");
-            scanf("%d", &opcao);
+            scanf("%d", &opcao_case2);
 
-            if(opcao == 1) 
+            if(opcao_case2 == 1) 
             {
 
                 *r0 = *r0 & ~(1 << 1  );
                 *r0 = *r0 & ~(1 << 2  );
             }
 
-            if(opcao == 2) 
+            if(opcao_case2 == 2) 
             {
-                *r0 = *r0 | (1 << 1  );
-                *r0 = *r0 & ~(1 << 2  );
+                *r0 = *r0 | (1 << 1  ); //Nao inverte pois or com 0 vira operaçao neutra
+                *r0 = *r0 & ~(1 << 2  ); //Inverte pois and com 1 vira operaçao neutra
             }
 
-            if(opcao == 3) 
+            if(opcao_case2 == 3) 
             {
                 *r0 = *r0 & ~(1 << 1  );
                 *r0 = *r0 |  (1 << 2  );
 
             }
 
-            if(opcao == 4) 
+            if(opcao_case2 == 4) 
             {
                 *r0 = *r0 | (1 << 1  );
                 *r0 = *r0 | (1 << 2  );
             }
             break;
 
-
-
+        case 3:
+            int opcao_case3 = 0;
+            printf("Digite uma velocidade (1-6) em 100ms: \n"); //FAZER TRY CATCH PARA ERRO DE DIGITAÇÃO
+            scanf("%d", &opcao_case3);
+            *r0 = *r0 & ~(0x3f << 3); //Zera os bits de 3 a 8 (Responsáveis pela velocidade)
+            *r0 = *r0 | (1 << opcao_case3 + 2); //Pega os bits da velocidade denominados por aux + 2
+            break;
+        case 4:
+            *r0 = *r0 ^ (1 << 9); //Inverte o bit 9
+            break;
 
         default:
             break;
