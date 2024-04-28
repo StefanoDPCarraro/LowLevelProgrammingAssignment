@@ -7,6 +7,7 @@
 
 #define FILE_PATH "registers.bin"
 #define FILE_SIZE 1024  // Same size as used in the first program
+#define MASK 0xFFFF
 
 // Function to open or create the file and map it into memory
 char* registers_map(const char* file_path, int file_size, int* fd) {
@@ -74,7 +75,8 @@ int main() {
     unsigned short *r12 = base_address + 0x0c;
     unsigned short *r13 = base_address + 0x0d;
     unsigned short *r14 = base_address + 0x0e;
-    unsigned short *r15 = base_address + 0x0f;
+    unsigned short *r15 = base_address + 0x0f;\
+    
     printf("Current value of R0: 0x%02x\n", *r0);
     printf("Current value of R1: 0x%02x\n", *r1);
     printf("Current value of R2: 0x%02x\n", *r2);
@@ -91,6 +93,7 @@ int main() {
     printf("Current value of R13: 0x%02x\n", *r13);
     printf("Current value of R14: 0x%02x\n", *r14);
     printf("Current value of R15: 0x%02x\n", *r15);
+    printf("Current value of Mask: 0x%x\n", MASK);
 
     // Write a new value to R0
     *r0 = *r0 | 0x00;
@@ -108,6 +111,45 @@ int main() {
         case 1:
             *r0 = *r0 ^ 0x01;
             break;
+
+        case 2:
+            printf("Opções de ações do modo de exibição: \n");
+            printf("1 - estático \n");
+            printf("2 - deslizante \n");
+            printf("3 - piscante \n");
+            printf("4 - deslizante/piscante \n");
+            scanf("%d", &opcao);
+
+            if(opcao == 1) 
+            {
+
+                *r0 = *r0 & ~(1 << 1  );
+                *r0 = *r0 & ~(1 << 2  );
+            }
+
+            if(opcao == 2) 
+            {
+                *r0 = *r0 | (1 << 1  );
+                *r0 = *r0 & ~(1 << 2  );
+            }
+
+            if(opcao == 3) 
+            {
+                *r0 = *r0 & ~(1 << 1  );
+                *r0 = *r0 |  (1 << 2  );
+
+            }
+
+            if(opcao == 4) 
+            {
+                *r0 = *r0 | (1 << 1  );
+                *r0 = *r0 | (1 << 2  );
+            }
+            break;
+
+
+
+
         default:
             break;
         }
