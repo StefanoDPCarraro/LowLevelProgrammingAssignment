@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include <sys/mman.h>
+#include <sys/mman.h> //Error on windows so must use WSL or Linux
 #include <unistd.h>
 #include <sys/stat.h>
 
@@ -61,11 +61,62 @@ int main() {
     unsigned short *base_address = (unsigned short *)map;
     unsigned short *r0 = base_address + 0x00;
     unsigned short *r1 = base_address + 0x01;
+    unsigned short *r2 = base_address + 0x02;
+    unsigned short *r3 = base_address + 0x04;
+    unsigned short *r4 = base_address + 0x10;
+    unsigned short *r5 = base_address + 0x20;
+    unsigned short *r6 = base_address + 0x40;
+    unsigned short *r7 = base_address + 0x100;
+    unsigned short *r8 = base_address + 0x200;
+    unsigned short *r9 = base_address + 0x400;
+    unsigned short *r10 = base_address + 0x1000;
+    unsigned short *r11 = base_address + 0x2000;
+    unsigned short *r12 = base_address + 0x4000;
+    unsigned short *r13 = base_address + 0x100000;
+    unsigned short *r14 = base_address + 0x200000;
+    unsigned short *r15 = base_address + 0x400000;
     printf("Current value of R0: 0x%02x\n", *r0);
     printf("Current value of R1: 0x%02x\n", *r1);
+    printf("Current value of R2: 0x%02x\n", *r2);
+    printf("Current value of R3: 0x%02x\n", *r3);
+    printf("Current value of R4: 0x%02x\n", *r4);
+    printf("Current value of R5: 0x%02x\n", *r5);
+    printf("Current value of R6: 0x%02x\n", *r6);
+    printf("Current value of R7: 0x%02x\n", *r7);
+    printf("Current value of R8: 0x%02x\n", *r8);
+    printf("Current value of R9: 0x%02x\n", *r9);
+    printf("Current value of R10: 0x%02x\n", *r10);
+    printf("Current value of R11: 0x%02x\n", *r11);
+    printf("Current value of R12: 0x%02x\n", *r12);
+    printf("Current value of R13: 0x%02x\n", *r13);
+    printf("Current value of R14: 0x%02x\n", *r14);
+    printf("Current value of R15: 0x%02x\n", *r15);
 
     // Write a new value to R0
     *r0 = *r0 | 0x00;
+
+    // Change the value of R0
+    *r0 = (*r0 & 0xF000) | 0x0213; //Comeca pelo bit 0 na direita, cada casa = 4 bits
+
+    int opcao = 0;
+    while (1)
+    {
+        printf("Digite sua opcao: \n");
+        scanf("%d", &opcao);
+        switch (opcao)
+        {
+        case 1:
+            *r0 = *r0 ^ 0x01;
+            break;
+        default:
+            break;
+        }
+    }
+    
+
+    // Exibir os novos valores dos registradores
+    printf("New value of R0: 0x%04x\n", *r0);
+
 
     // Release resources
     if (registers_release(map, FILE_SIZE, fd) == -1) {
