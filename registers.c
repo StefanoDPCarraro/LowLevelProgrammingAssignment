@@ -98,9 +98,6 @@ int main() {
     // Write a new value to R0
     *r0 = *r0 | 0x00;
 
-    // Change the value of R0
-    *r0 = (*r0 & 0xF000) | 0x0213; //Comeca pelo bit 0 na direita, cada casa = 4 bits
-
     int opcao = 0;
     while (1)
     {
@@ -130,8 +127,8 @@ int main() {
 
             if(opcao_case2 == 2) 
             {
-                *r0 = *r0 | (1 << 1  ); //Nao inverte pois or com 0 vira operaçao neutra
-                *r0 = *r0 & ~(1 << 2  ); //Inverte pois and com 1 vira operaçao neutra
+                *r0 = *r0 | (1 << 1  ); //Nao inverte pois or com 0 vira operaçao neutra - Para virar 1 no bit especifico no caminhamento
+                *r0 = *r0 & ~(1 << 2  ); //Inverte pois and com 1 vira operaçao neutra - Para virar 0 no bit especifico no caminhamento
             }
 
             if(opcao_case2 == 3) 
@@ -162,16 +159,16 @@ int main() {
             break;
 
         case 4:
-            *r0 = *r0 ^ (1 << 9); //Inverte o bit 9
+            *r0 = *r0 ^ (1 << 9); //Toggle do bit 9
             break;
 
         case 5:
             int opcao_case5 = 0;
             printf("Selecione uma opcao de cor: \n"); //FAZER TRY CATCH PARA ERRO DE DIGITAÇÃO
             printf("0 - Desligado \n");
-            printf("1 - Vermelho \n"); //TROCAR COR
-            printf("2 - Verde \n"); //TROCAR COR
-            printf("3 - Azul \n"); //TROCAR COR
+            printf("1 - Vermelho \n"); //TROCADO COM AZUL
+            printf("2 - Verde \n"); 
+            printf("3 - Azul \n"); //TROCADO COM VERMELHO
             scanf("%d", &opcao_case5);
             *r0 = *r0 & ~(0x07 << 10); //Zera os bits de 10 ao 12 (Responsáveis pela cor)
             if(opcao_case5 > 0 && opcao_case5 < 4)
@@ -232,7 +229,30 @@ int main() {
             break;
 
         case 11:
-            //IMPLEMENTAR LOOP PARA PREENCHER TODOS OS REGISTRADORES COM OS VALORES DO CHAR
+            char mensagem[25];
+            printf("Digite uma mensagem de até 24 caracteres: \n");
+            scanf(" %[^\n]", mensagem);
+            printf("Mensagem: %s\n", mensagem);
+            //ZERAR AS PALAVRAS DE R4 a R15
+            for(int i = 4; i < 16; i++)
+            {
+                unsigned short *r = base_address + i;
+                *r = 0x0000;
+            }
+            for(int i = 0; i < sizeof(mensagem) - 1; i++)
+            {
+                unsigned short *r = r4 + i/2;
+                if(i % 2 == 0)
+                {
+                    *r = *r & ~(0xff);
+                    *r = *r | mensagem[i];
+                }
+                else
+                {
+                    *r = *r & ~(0xff << 8);
+                    *r = *r | (mensagem[i] << 8);
+                }
+            }
             break;
 
         default:
