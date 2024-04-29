@@ -7,7 +7,6 @@
 
 #define FILE_PATH "registers.bin"
 #define FILE_SIZE 1024  // Same size as used in the first program
-#define MASK 0xFFFF
 
 // Function to open or create the file and map it into memory
 char* registers_map(const char* file_path, int file_size, int* fd) {
@@ -93,7 +92,8 @@ int main() {
     printf("Current value of R13: 0x%02x\n", *r13);
     printf("Current value of R14: 0x%02x\n", *r14);
     printf("Current value of R15: 0x%02x\n", *r15);
-    printf("Current value of Mask: 0x%x\n", MASK);
+
+    // & = AND, | = OR, ^ = XOR, ~ = NOT
 
     // Write a new value to R0
     *r0 = *r0 | 0x00;
@@ -169,9 +169,9 @@ int main() {
             int opcao_case5 = 0;
             printf("Selecione uma opcao de cor: \n"); //FAZER TRY CATCH PARA ERRO DE DIGITAÇÃO
             printf("0 - Desligado \n");
-            printf("1 - Vermelho \n");
-            printf("2 - Verde \n");
-            printf("3 - Azul \n");
+            printf("1 - Vermelho \n"); //TROCAR COR
+            printf("2 - Verde \n"); //TROCAR COR
+            printf("3 - Azul \n"); //TROCAR COR
             scanf("%d", &opcao_case5);
             *r0 = *r0 & ~(0x07 << 10); //Zera os bits de 10 ao 12 (Responsáveis pela cor)
             if(opcao_case5 > 0 && opcao_case5 < 4)
