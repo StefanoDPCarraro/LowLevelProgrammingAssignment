@@ -120,7 +120,6 @@ int main() {
 
             if(opcao_case2 == 1) 
             {
-
                 *r0 = *r0 & ~(1 << 1  );
                 *r0 = *r0 & ~(1 << 2  );
             }
@@ -174,6 +173,10 @@ int main() {
             if(opcao_case5 > 0 && opcao_case5 < 4)
             {
                 *r0 = *r0 | (1 << 9 + opcao_case5); //Pega os bits da cor denominados por aux + 10
+                break;
+            }
+            if(opcao_case5 == 0)
+            {
                 break;
             }
             printf("Valor inválido\n");
