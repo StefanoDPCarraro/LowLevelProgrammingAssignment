@@ -152,11 +152,87 @@ int main() {
             int opcao_case3 = 0;
             printf("Digite uma velocidade (1-6) em 100ms: \n"); //FAZER TRY CATCH PARA ERRO DE DIGITAÇÃO
             scanf("%d", &opcao_case3);
+            if(opcao_case3 < 1 || opcao_case3 > 6)
+            {
+                printf("Valor inválido\n");
+                break;
+            }
             *r0 = *r0 & ~(0x3f << 3); //Zera os bits de 3 a 8 (Responsáveis pela velocidade)
             *r0 = *r0 | (1 << opcao_case3 + 2); //Pega os bits da velocidade denominados por aux + 2
             break;
+
         case 4:
             *r0 = *r0 ^ (1 << 9); //Inverte o bit 9
+            break;
+
+        case 5:
+            int opcao_case5 = 0;
+            printf("Selecione uma opcao de cor: \n"); //FAZER TRY CATCH PARA ERRO DE DIGITAÇÃO
+            printf("0 - Desligado \n");
+            printf("1 - Vermelho \n");
+            printf("2 - Verde \n");
+            printf("3 - Azul \n");
+            scanf("%d", &opcao_case5);
+            *r0 = *r0 & ~(0x07 << 10); //Zera os bits de 10 ao 12 (Responsáveis pela cor)
+            if(opcao_case5 > 0 && opcao_case5 < 4)
+            {
+                *r0 = *r0 | (1 << 9 + opcao_case5); //Pega os bits da cor denominados por aux + 10
+                break;
+            }
+            printf("Valor inválido\n");
+            break;
+
+        case 6:
+            //IMPLEMENTAR DEFAULT
+            break;
+
+        case 7:
+            int opcao_case7_vermelho = 0;
+            int opcao_case7_verde = 0;
+            int opcao_case7_azul = 0;
+            printf("Digite um valor de vermelho (0-255): \n");
+            scanf("%d", &opcao_case7_vermelho);
+            if(opcao_case7_vermelho < 0 || opcao_case7_vermelho > 255)
+            {
+                printf("Valor inválido\n");
+                break;
+            }
+            *r1 = *r1 & ~(0xff); //Zera os bits de 0 a 7
+            *r1 = *r1 | opcao_case7_vermelho; //Pega os bits do valor de vermelho
+            printf("Digite um valor de verde (0-255): \n");
+            scanf("%d", &opcao_case7_verde);
+            if(opcao_case7_verde < 0 || opcao_case7_verde > 255)
+            {
+                printf("Valor inválido\n");
+                break;
+            }
+            *r1 = *r1 & ~(0xff << 8); //Zera os bits de 8 a 15
+            *r1 = *r1 | (opcao_case7_verde << 8); //Pega os bits do valor de verde
+            printf("Digite um valor de azul (0-255): \n");
+            scanf("%d", &opcao_case7_azul);
+            if(opcao_case7_azul < 0 || opcao_case7_azul > 255)
+            {
+                printf("Valor inválido\n");
+                break;
+            }
+            *r2 = *r2 & ~(0xff); //Zera os bits de 0 a 7
+            *r2 = *r2 | opcao_case7_azul; //Pega os bits do valor de azul
+            break;
+        
+        case 8:
+            //METODO READ-ONLY
+            break;
+
+        case 9:
+            //METODO READ-ONLY
+            break;
+        
+        case 10:
+            //METODO READ-ONLY
+            break;
+
+        case 11:
+            //IMPLEMENTAR LOOP PARA PREENCHER TODOS OS REGISTRADORES COM OS VALORES DO CHAR
             break;
 
         default:
