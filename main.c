@@ -89,41 +89,12 @@ int main() {
             switch (opcao)
             {
                 case 1:
-                    //DISPLAY LIGADO OU DESLIGADO
-                    if(*r0 & 0x01)
-                    {
-                        printf("Display ligado, valor 1\n");
-                    }
-                    else
-                    {
-                        printf("Display desligado, valor 0\n");
-                    }
+                    printf("Display: %s \n", getDisplayStatus(r0));
                     break;
                 
                 case 2:
                     //MODO DE EXIBIÇÃO
-                    if(*r0 & 0x02)
-                    {
-                        if(*r0 & 0x04)
-                        {
-                            printf("Modo de exibição: Deslizante/Piscante\n");
-                        }
-                        else
-                        {
-                            printf("Modo de exibição: Piscante\n");
-                        }
-                    }
-                    else
-                    {
-                        if(*r0 & 0x04)
-                        {
-                            printf("Modo de exibição: Deslizante\n");
-                        }
-                        else
-                        {
-                            printf("Modo de exibição: Estático\n");
-                        }
-                    }
+                    printf("Modo de exibição: %s \n", getExibicao(r0));
                     break;
 
                 case 3:
@@ -228,7 +199,6 @@ int main() {
                     printf("Mensagem: %s\n", mensagem);
                     break;
             }
-            printf("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= \n");
         }
         else if(read_or_write == 2){
             printf("Digite sua opcao de write: \n");

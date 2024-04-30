@@ -13,3 +13,5 @@ void setLedStatus(unsigned short *r0, int opcao);
 void setRGB(int red, int green, int blue, unsigned short *r1, unsigned short *r2);
 void resetDefault(unsigned short *r0, unsigned short *r1, unsigned short *r2);
 void setMensagem(char mensagem[], unsigned short *r4);
+char* getDisplayStatus(unsigned short *r0);
+char* getExibicao(unsigned short *r0);

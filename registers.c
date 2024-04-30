@@ -133,3 +133,18 @@ void setMensagem(char mensagem[], unsigned short *r4){
         }
     }
 }
+
+char* getDisplayStatus(unsigned short *r0){
+    if( *r0 & 0x01 ) return "Ligado";
+    return "Desligado";
+}
+
+char* getExibicao(unsigned short *r0){
+    if(*r0 & 0x02)
+    {
+        if(*r0 & 0x04) return "Piscante e Deslizante";
+        return "Piscante";
+    }
+    if(*r0 & 0x04) return "Deslizante";
+    return "Estatico";
+}
