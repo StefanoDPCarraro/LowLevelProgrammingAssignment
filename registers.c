@@ -8,6 +8,12 @@
 #define FILE_PATH "registers.bin"
 #define FILE_SIZE 1024  // Same size as used in the first program
 
+// Funcao para limpar a tela
+void clrscr()
+{
+    system("@cls||clear");
+}
+
 // Function to open or create the file and map it into memory
 char* registers_map(const char* file_path, int file_size, int* fd) {
     *fd = open(file_path, O_RDWR | O_CREAT, 0666);
@@ -102,11 +108,31 @@ int main() {
     int read_or_wirte = 0;
     while (1)
     {   
-        printf("Digite 1 para read e 2 para write: \n");
+        printf("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= \n");
+        printf("0 - Break \n");
+        printf("1 - Read \n");
+        printf("2 - Write \n");
+        printf("Digite sua opcao: ");
         scanf("%d", &read_or_wirte);
         if(read_or_wirte == 1){
-            printf("Digite sua opcao de read: \n");
+            printf("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= \n");
+            printf("1 - Display ligado ou desligado\n");
+            printf("2 - Modo de exibição\n");
+            printf("3 - Velocidade\n");
+            printf("4 - Cursor ligado ou desligado\n");
+            printf("5 - Cor\n");
+            printf("6 - Valor rgb da mensagem\n");
+            printf("7 - Nível da bateria\n");
+            printf("8 - Número de vezes que a mensagem passou pelo display\n");
+            printf("9 - Temperatura atual\n");
+            printf("10 - Mensagem\n");
+            printf("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= \n");
+            printf("Digite sua opcao de read: ");
             scanf("%d", &opcao);
+            printf("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= \n");
+            clrscr();
+            printf("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= \n");
+            printf("Output: \n");
             switch (opcao)
             {
                 case 1:
@@ -249,9 +275,18 @@ int main() {
                     printf("Mensagem: %s\n", mensagem);
                     break;
             }
+            printf("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= \n");
         }
         else if(read_or_wirte == 2){
             printf("Digite sua opcao de write: \n");
+            printf("1 - Display ligado ou desligado\n");
+            printf("2 - Modo de exibição\n");
+            printf("3 - Velocidade\n");
+            printf("4 - Cursor ligado ou desligado\n");
+            printf("5 - Cor\n");
+            printf("6 - Restaurar config default\n");
+            printf("7 - Valor rgb da mensagem\n");
+            printf("8 - Mensagem\n");
             scanf("%d", &opcao);
             switch (opcao)
             {
@@ -368,37 +403,34 @@ int main() {
                 *r2 = *r2 & ~(0xff); //Zera os bits de 0 a 7
                 *r2 = *r2 | opcao_case7_azul; //Pega os bits do valor de azul
                 break;
-
             case 8:
-                char mensagem[25];
-                printf("Digite uma mensagem de até 24 caracteres: \n");
-                scanf(" %[^\n]", mensagem);
-                printf("Mensagem: %s\n", mensagem);
-                //ZERAR AS PALAVRAS DE R4 a R15
-                for(int i = 4; i < 16; i++)
-                {
+                for (int i = 4; i <= 15; i++) {
                     unsigned short *r = base_address + i;
-                    *r = 0x0000;
+                    *r = 0x0000; // Limpa o conteúdo do registrador
                 }
-                for(int i = 0; i < sizeof(mensagem) - 1; i++)
-                {
-                    unsigned short *r = r4 + i/2;
-                    if(i % 2 == 0)
-                    {
-                        *r = *r & ~(0xff);
+                char mensagem[25];
+                printf("Digite a mensagem: ");
+                scanf(" %[^\n]", mensagem);
+                //ADICIONAR MENSAGEM AO DISPLAY
+                for (int i = 0; i < 24; i++) {
+                    unsigned short *r = base_address + i/2 + 4;
+                    if (i % 2 == 0) {
                         *r = *r | mensagem[i];
-                    }
-                    else
-                    {
-                        *r = *r & ~(0xff << 8);
+                    } else {
                         *r = *r | (mensagem[i] << 8);
                     }
                 }
-                break;
-
             default:
                 break;
             }
+        }
+        else if(read_or_wirte == 0)
+        {
+            break;
+        }
+        else
+        {
+            printf("Valor inválido\n");
         }
     }
     
