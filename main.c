@@ -99,40 +99,31 @@ int main() {
 
                 case 3:
                     //VELOCIDADE TESTAR
-                    int velocidade = (*r0 & 0x3f) >> 2;
-                    printf("Velocidade: %d\n", velocidade);
+                    printf("Velocidade: %d \n", getVelocidade(r0));
                     break;
 
                 case 4:
                     //CURSOR LIGADO OU DESLIGADO
-                    if(*r0 & 0x200)
-                    {
-                        printf("Cursor ligado, valor 1\n");
-                    }
-                    else
-                    {
-                        printf("Cursor desligado, valor 0\n");
-                    }
+                    printf("Cursor: %s \n", getCursorStatus(r0));
                     break;
 
                 case 5:
                     //COR
                     int cor = (*r0 & 0x07) >> 3;
-                    if(cor == 0)
+                    switch (cor)
                     {
-                        printf("Cor: Desligado\n");
-                    }
-                    if(cor == 1)
-                    {
-                        printf("Cor: Vermelho\n");
-                    }
-                    if(cor == 2)
-                    {
-                        printf("Cor: Verde\n");
-                    }
-                    if(cor == 3)
-                    {
-                        printf("Cor: Azul\n");
+                        case 0:
+                            printf("Cor: Desligado\n");
+                            break;
+                        case 1:
+                            printf("Cor: Vermelho\n");
+                            break;
+                        case 2:
+                            printf("Cor: Verde\n");
+                            break;
+                        case 3:
+                            printf("Cor: Azul\n");
+                            break;
                     }
                     break;
 

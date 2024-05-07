@@ -148,3 +148,15 @@ char* getExibicao(unsigned short *r0){
     if(*r0 & 0x04) return "Deslizante";
     return "Estatico";
 }
+
+char* getVelocidade(unsigned short *r0){
+    int velocidade = (*r0 & 0x3f) >> 2;
+    printf("Velocidade: %d\n", velocidade);
+}
+
+char* getLedOperacao(unsigned short *r0){
+    if( *r0 & (1 << 9) ) return "Ligado";
+    return "Desligado";
+}
+
+char* get
