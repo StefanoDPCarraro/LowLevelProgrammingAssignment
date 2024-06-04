@@ -350,11 +350,6 @@ int main() {
             printf("Valor inválido\n");
         }
     }
-    
-
-    // Exibir os novos valores dos registradores
-    printf("New value of R0: 0x%04x\n", *r0);
-
 
     // Release resources
     if (registers_release(map, FILE_SIZE, fd) == -1) {

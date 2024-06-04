@@ -4,7 +4,7 @@ PROG = controller
 FONTES = main.c registers.c
 OBJETOS = $(FONTES:.c=.o)
 
-all: dynamic
+all: static
 
 static:
 	gcc $(CFLAGS) -c registers.c
