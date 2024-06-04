@@ -73,7 +73,7 @@ int main() {
             printf("2 - Modo de exibição\n");
             printf("3 - Velocidade\n");
             printf("4 - Cursor ligado ou desligado\n");
-            printf("5 - Cor\n");
+            printf("5 - Cor led status\n");
             printf("6 - Valor rgb da mensagem\n");
             printf("7 - Nível da bateria\n");
             printf("8 - Número de vezes que a mensagem passou pelo display\n");
@@ -99,95 +99,37 @@ int main() {
 
                 case 3:
                     //VELOCIDADE TESTAR
-                    printf("Velocidade: %d \n", getVelocidade(r0));
+                    printf("Velocidade: %d ms \n", getVelocidade(r0));
                     break;
 
                 case 4:
                     //CURSOR LIGADO OU DESLIGADO
-                    printf("Cursor: %s \n", getCursorStatus(r0));
+                    printf("Cursor: %s \n", getLedOperacao(r0));
                     break;
 
                 case 5:
-                    //COR
-                    int cor = (*r0 & 0x07) >> 3;
-                    switch (cor)
-                    {
-                        case 0:
-                            printf("Cor: Desligado\n");
-                            break;
-                        case 1:
-                            printf("Cor: Vermelho\n");
-                            break;
-                        case 2:
-                            printf("Cor: Verde\n");
-                            break;
-                        case 3:
-                            printf("Cor: Azul\n");
-                            break;
-                    }
+                    printf("Cor led status: %s \n", getLedStatus(r0));
                     break;
 
                 case 6:
-                    //VALOR DE VERMELHO, VERDE E AZUL
-                    int vermelho = *r1 & 0xff;
-                    int verde = (*r1 & 0xff00) >> 8;
-                    int azul = *r2 & 0xff;
-                    printf("Valor de vermelho: %d\n", vermelho);
-                    printf("Valor de verde: %d\n", verde);
-                    printf("Valor de azul: %d\n", azul);
+                    printf("R:%d G:%d B:%d \n", getRed(r1), getGreen(r1), getBlue(r2));
                     break;
 
                 case 7:
-                    //MOSTRA O NIVEL DE BATERIA, R3 bits 0-1
-                    //Nível da bateria: Crítico (0), Baixo (1), Médio (2), Alto (3)
-                    int nivel_bateria = *r3 & 0x03;
-                    if(nivel_bateria == 0)
-                    {
-                        printf("Nível da bateria: Crítico\n");
-                    }
-                    if(nivel_bateria == 1)
-                    {
-                        printf("Nível da bateria: Baixo\n");
-                    }
-                    if(nivel_bateria == 2)
-                    {
-                        printf("Nível da bateria: Médio\n");
-                    }
-                    if(nivel_bateria == 3)
-                    {
-                        printf("Nível da bateria: Alto\n");
-                    }
+                    printf("Nível da bateria: %s \n", getBatteryLevel(r3));
                     break;
 
                 case 8:
-                    //MOSTRA NUMERO DE VEZES QUE A MENSAGEM PASSOU PELO DISPLAY, R3 BITS 2-5
-                    int vezes_mensagem = (*r3 & 0x3c) >> 2;
-                    printf("Número de vezes que a mensagem passou pelo display: %d\n", vezes_mensagem);
+                    printf("Número de vezes que a mensagem passou pelo display: %d \n", getVezesMensagem(r3));
                     break;
 
                 case 9:
-                    //MOSTRA TEMPERATURA ATUAL EM CELSIUS VEZES 10, R3 BITS 6-15
-                    int temperatura = (*r3 & 0xffc0) >> 6;
-                    //PRINT DA TEMPERATURA EM VIRGULA
-                    printf("Temperatura atual: %d,%d\n", temperatura/10, temperatura%10);
+                    printf("Temperatura atual: %d,%d\n", getTemperatura(r3)/10, getTemperatura(r3)%10);
+                    //DECIMAL = RESTO DE DIVISAO POR 10, INTEIRO = QUOCIENTE DIVISAO POR 10
                     break;
 
                 case 10:
-                    //MENSAGEM
-                    char mensagem[25];
-                    for(int i = 0; i < 24; i++)
-                    {
-                        unsigned short *r = r4 + i/2;
-                        if(i % 2 == 0)
-                        {
-                            mensagem[i] = *r & 0xff;
-                        }
-                        else
-                        {
-                            mensagem[i] = (*r & 0xff00) >> 8;
-                        }
-                    }
-                    printf("Mensagem: %s\n", mensagem);
+                    printf("Mensagem: %s\n", getMensagem(r4));
                     break;
             }
         }
@@ -197,7 +139,7 @@ int main() {
             printf("2 - Modo de exibição\n");
             printf("3 - Velocidade\n");
             printf("4 - Cursor ligado ou desligado\n");
-            printf("5 - Cor\n");
+            printf("5 - Cor led status\n");
             printf("6 - Restaurar config default\n");
             printf("7 - Valor rgb da mensagem\n");
             printf("8 - Mensagem\n");
@@ -240,9 +182,9 @@ int main() {
 
             case 3:
                 int opcao_case3 = 0;
-                printf("Digite uma velocidade (1-6) em 100ms: \n"); //FAZER TRY CATCH PARA ERRO DE DIGITAÇÃO
+                printf("Digite uma velocidade (1-63) em 100ms: \n"); //FAZER TRY CATCH PARA ERRO DE DIGITAÇÃO
                 scanf("%d", &opcao_case3);
-                if(opcao_case3 < 1 || opcao_case3 > 6)
+                if(opcao_case3 < 1 || opcao_case3 > 63)
                 {
                     printf("Valor inválido\n");
                     break;
@@ -260,11 +202,17 @@ int main() {
                 printf("0 - Desligado \n");
                 printf("1 - Azul \n"); //TROCADO COM AZUL
                 printf("2 - Verde \n"); 
-                printf("3 - Vermelho \n"); //TROCADO COM VERMELHO
-                printf("AZUL E VERMELHO DEVERIAM SER TROCADOS NO EMULADOR");
+                printf("3 - Ciano \n"); //AZUL + VERDE
+                printf("4 - Vermelho \n"); //TROCADO COM VERMELHO
+                printf("5 - Rosa \n"); //VERMELHO + AZUL
+                printf("6 - Amarelo \n"); //VERMELHO + VERDE
+                printf("7 - Branco \n"); //VERMELHO + VERDE + AZUL
                 scanf("%d", &opcao_case5);
+                if(opcao_case5 < 0 || opcao_case5 > 7){
+                    printf("Valor inválido\n");
+                    break;
+                }
                 setLedStatus(r0, opcao_case5);
-                printf("Valor inválido\n");
                 break;
 
             case 6:
