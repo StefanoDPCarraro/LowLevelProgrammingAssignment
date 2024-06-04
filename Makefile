@@ -1,26 +1,20 @@
-# Nome da Biblioteca
-BIBLIOTECA = libregisters.so
+CFLAGS = -Wall -O2
 
-HEADER = registers.h
+PROG = controller
+FONTES = main.c registers.c
+OBJETOS = $(FONTES:.c=.o)
 
-SRC = registers.c
-
-OBJ = $(SRC:.c=.o)
-
-CFLAGS = -Wall -O2 -fPIC
-
-CC = gcc
-
-all: $(BIBLIOTECA) main
-
-$(BIBLIOTECA): $(OBJ)
-	$(CC) $(CFLAGS) -shared -o $(BIBLIOTECA) $(OBJ)
-
-dynamic: $(BIBLIOTECA) main.c
-	$(CC) -o main main.c -L. -lregisters -o main
+all: dynamic
 
 static:
+	gcc $(CFLAGS) -c registers.c
+	ar rcs libregisters.a registers.o
+	gcc $(CFLAGS) main.c -o $(PROG) -L. -lregisters
 
+dynamic:
+	gcc $(CFLAGS) -c -fPIC registers.c
+	gcc $(CFLAGS) -shared -o libregisters.so registers.o
+	gcc $(CFLAGS) main.c -o $(PROG) -L. -lregisters
 
 clean:
-	rm -f $(OBJ) $(BIBLIOTECA) main
+	rm -f $(PROG) $(OBJETOS) libregisters.a libregisters.so

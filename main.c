@@ -66,7 +66,13 @@ int main() {
         printf("1 - Read \n");
         printf("2 - Write \n");
         printf("Digite sua opcao: ");
-        scanf("%d", &read_or_write);
+        int try1 = scanf("%d", &read_or_write);
+        if (try1 == 0)
+        {
+            printf("Valor inválido\n");
+            break;
+        }
+        
         if(read_or_write == 1){
             printf("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= \n");
             printf("1 - Display ligado ou desligado\n");
@@ -81,7 +87,12 @@ int main() {
             printf("10 - Mensagem\n");
             printf("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= \n");
             printf("Digite sua opcao de read: ");
-            scanf("%d", &opcao);
+            int try2  = scanf("%d", &opcao);
+            if (try2 == 0)
+            {
+                printf("Valor inválido\n");
+                break;
+            }                      
             printf("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= \n");
             clrscr();
             printf("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= \n");
@@ -143,7 +154,12 @@ int main() {
             printf("6 - Restaurar config default\n");
             printf("7 - Valor rgb da mensagem\n");
             printf("8 - Mensagem\n");
-            scanf("%d", &opcao);
+            int try3 = scanf("%d", &opcao);
+            if (try3 == 0)
+            {
+                printf("Valor inválido\n");
+                break;
+            }
             switch (opcao)
             {
             case 1:
@@ -157,8 +173,12 @@ int main() {
                 printf("2 - deslizante \n");
                 printf("3 - piscante \n");
                 printf("4 - deslizante/piscante \n");
-                scanf("%d", &opcao_case2);
-
+                int try4 = scanf("%d", &opcao_case2);
+                if (try4 == 0)
+                {
+                    printf("Valor inválido\n");
+                    break;
+                }
                 if(opcao_case2 == 1) 
                 {
                     setEstatico(r0);
@@ -183,7 +203,12 @@ int main() {
             case 3:
                 int opcao_case3 = 0;
                 printf("Digite uma velocidade (1-63) em 100ms: \n"); //FAZER TRY CATCH PARA ERRO DE DIGITAÇÃO
-                scanf("%d", &opcao_case3);
+                int try5 = scanf("%d", &opcao_case3);
+                if (try5 == 0)
+                {
+                    printf("Valor inválido\n");
+                    break;
+                }
                 if(opcao_case3 < 1 || opcao_case3 > 63)
                 {
                     printf("Valor inválido\n");
@@ -207,7 +232,12 @@ int main() {
                 printf("5 - Rosa \n"); //VERMELHO + AZUL
                 printf("6 - Amarelo \n"); //VERMELHO + VERDE
                 printf("7 - Branco \n"); //VERMELHO + VERDE + AZUL
-                scanf("%d", &opcao_case5);
+                int try6 = scanf("%d", &opcao_case5);
+                if (try6 == 0)
+                {
+                    printf("Valor inválido\n");
+                    break;
+                }
                 if(opcao_case5 < 0 || opcao_case5 > 7){
                     printf("Valor inválido\n");
                     break;
@@ -224,17 +254,37 @@ int main() {
                 int opcao_case7_verde = 0;
                 int opcao_case7_azul = 0;
                 printf("Digite um valor de vermelho (0-255): \n");
-                scanf("%d", &opcao_case7_vermelho);
+                int try7 = scanf("%d", &opcao_case7_vermelho);
+                if (try7 == 0)
+                {
+                    printf("Valor inválido\n");
+                    break;
+                }
                 printf("Digite um valor de verde (0-255): \n");
-                scanf("%d", &opcao_case7_verde);
+                int try8 = scanf("%d", &opcao_case7_verde);
+                if (try8 == 0)
+                {
+                    printf("Valor inválido\n");
+                    break;
+                }
                 printf("Digite um valor de azul (0-255): \n");
-                scanf("%d", &opcao_case7_azul);
+                int try9 = scanf("%d", &opcao_case7_azul);
+                if (try9 == 0)
+                {
+                    printf("Valor inválido\n");
+                    break;
+                }
                 setRGB(opcao_case7_vermelho, opcao_case7_verde, opcao_case7_azul, r1, r2);
                 break;
             case 8:
                 char mensagem[25];
                 printf("Digite a mensagem: ");
-                scanf(" %[^\n]", mensagem);
+                int try10 = scanf(" %[^\n]", mensagem);
+                if (try10 == 0)
+                {
+                    printf("Valor inválido\n");
+                    break;
+                }
                 setMensagem(mensagem, r4);
             default:
                 break;
