@@ -25,3 +25,4 @@ char* getBatteryLevel(unsigned short *r3);
 int getVezesMensagem(unsigned short *r3);
 int getTemperatura(unsigned short *r3);
 char* getMensagem(unsigned short *r4);
+void toggleMensagem(char *novaMensagem1,char *novaMensagem2, unsigned short *r4);

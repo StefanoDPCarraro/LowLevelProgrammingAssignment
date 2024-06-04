@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include "registers.h"
+#include <string.h>
 
 #define FILE_PATH "registers.bin"
 #define FILE_SIZE 1024  // Same size as used in the first program
@@ -34,6 +35,9 @@ int main() {
     unsigned short *r13 = base_address + 0x0d;
     unsigned short *r14 = base_address + 0x0e;
     unsigned short *r15 = base_address + 0x0f;
+
+   static char novaMensagem1[25];
+   static char novaMensagem2[25];
     
     printf("Current value of R0: 0x%02x\n", *r0);
     printf("Current value of R1: 0x%02x\n", *r1);
@@ -65,6 +69,7 @@ int main() {
         printf("0 - Break \n");
         printf("1 - Read \n");
         printf("2 - Write \n");
+        printf("3 - Toggle mensagem(Apenas entre 25 e 50 caracteres) \n");
         printf("Digite sua opcao: ");
         int try1 = scanf("%d", &read_or_write);
         if (try1 == 0)
@@ -277,19 +282,65 @@ int main() {
                 setRGB(opcao_case7_vermelho, opcao_case7_verde, opcao_case7_azul, r1, r2);
                 break;
             case 8:
-                char mensagem[25];
+                char maxLength[50];
+                
+
+                
                 printf("Digite a mensagem: ");
-                int try10 = scanf(" %[^\n]", mensagem);
+                int try10 = scanf(" %[^\n]", maxLength);
                 if (try10 == 0)
                 {
                     printf("Valor inválido\n");
                     break;
                 }
-                setMensagem(mensagem, r4);
+
+                else if(strlen(maxLength) < 25) 
+                {
+                    for(int i = 0; i < 24; i++) 
+                    {
+                        novaMensagem1[i] = maxLength[i];
+                    }
+
+                    for (int i = 0; i < 24; i++) 
+                    {
+                      novaMensagem2[i] = 0;
+                    }
+
+                }
+
+                else if(strlen(maxLength) < 50)
+                {
+                    printf("Sua mensagem será dividia\n");
+
+                    for(int i = 0; i < 24; i++) 
+                    {
+                        novaMensagem1[i] = maxLength[i];
+                    }
+                    for(int i = 0; i < 24; i++) 
+                    {
+                        novaMensagem2[i] = maxLength[strlen(novaMensagem1)+i];
+                    }
+                }
+
+                else 
+                {
+                    printf("Mensagem com muitos caracteres");
+                }
+
+                setMensagem(novaMensagem1, r4);
+
+
+
             default:
                 break;
             }
         }
+
+        else if(read_or_write == 3){
+            toggleMensagem(novaMensagem1, novaMensagem2, r4);
+    
+        }
+
         else if(read_or_write == 0)
         {
             break;

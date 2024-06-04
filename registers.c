@@ -4,6 +4,7 @@
 #include <sys/mman.h> //Error on windows so must use WSL or Linux
 #include <unistd.h>
 #include <sys/stat.h>
+#include <string.h>
 
 // Funcao para limpar a tela
 void clrscr()
@@ -148,6 +149,7 @@ void setMensagem(char mensagem[], unsigned short *r4)
     }
 
     // ADICIONAR MENSAGEM AO DISPLAY
+
     for (int i = 0; i < 24; i++)
     {
         unsigned short *r = r4 + i / 2;
@@ -279,4 +281,23 @@ char *getMensagem(unsigned short *r4)
         }
     }
     return mensagem;
+}
+
+void toggleMensagem(char *novaMensagem1, char *novaMensagem2, unsigned short *r4)
+{
+    if (strcmp(novaMensagem1, getMensagem(r4)) == 0) 
+    {
+        if (novaMensagem2[0] != '\0') 
+        {
+            setMensagem(novaMensagem2, r4);
+        }
+        else
+        {
+            printf("\nNão há uma segunda mensagem(número de caracteres insuficiente)\n");
+        }
+    }
+    else 
+    {
+        setMensagem(novaMensagem1, r4);
+    }
 }
