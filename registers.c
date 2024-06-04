@@ -8,7 +8,11 @@
 // Funcao para limpar a tela
 void clrscr()
 {
-    system("@cls||clear");
+    int result = system("@cls||clear");
+    if(result != 0)
+    {
+        printf("Erro ao limpar a tela\n");
+    }
 }
 
 // Function to open or create the file and map it into memory
