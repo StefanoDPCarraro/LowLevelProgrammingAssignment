@@ -33,4 +33,5 @@ Por fim, execute o emulador com o comando `./emulator` na mesma pasta.
 1. O controlador pode armazenar até 48 letras, mas apenas as 24 ativas no momento do encerramento serão mantidas. Assim, instruir a troca de mensagem logo após abrir o controlador fará com que ele limpe a mensagem na tela.
 2. Todas as funções do emulador foram testadas várias vezes em diferentes cenários, mas existem casos muito específicos de mensagens em que o comportamento pode não ser exatamente o esperado. Por exemplo, mesmo com o código para limpar toda a mensagem antes de registrar uma nova, pode haver caracteres aleatórios após o final da palavra. Se isso acontecer, basta interromper o emulador e abrir novamente para garantir o funcionamento correto.
 3. Todas as funções são exibidas no console no menu, ocultas atrás das opções "read" e "write".
+4. Quando for compilar, selecione apenas 1 dos modos de compilação, pois com os 2 ele fica perdido.
 
