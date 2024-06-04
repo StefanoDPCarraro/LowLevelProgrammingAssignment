@@ -14,7 +14,7 @@ static:
 dynamic:
 	gcc $(CFLAGS) -c -fPIC registers.c
 	gcc $(CFLAGS) -shared -o libregisters.so registers.o
-	gcc $(CFLAGS) main.c -o $(PROG) -L. -lregisters
+	gcc $(CFLAGS) main.c -o $(PROG) -L. -lregisters -Wl,-rpath=.
 
 clean:
 	rm -f $(PROG) $(OBJETOS) libregisters.a libregisters.so
