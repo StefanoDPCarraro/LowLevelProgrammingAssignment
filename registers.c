@@ -211,6 +211,8 @@ char *getLedStatus(unsigned short *r0)
         return "Amarelo";
     case 7:
         return "Branco";
+    default:
+        return "Desligado";
     }
 }
 
@@ -242,8 +244,10 @@ char *getBatteryLevel(unsigned short *r3)
         return "Médio";
     case 3:
         return "Alto";
+    default:
+        return "ERRO";
     }
-}
+}   
 
 int getVezesMensagem(unsigned short *r3)
 {
