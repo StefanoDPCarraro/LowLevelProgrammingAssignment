@@ -159,6 +159,7 @@ int main() {
             printf("6 - Restaurar config default\n");
             printf("7 - Valor rgb da mensagem\n");
             printf("8 - Mensagem\n");
+            printf("9 - Atualizar led conforme bateria\n");
             int try3 = scanf("%d", &opcao);
             if (try3 == 0)
             {
@@ -329,8 +330,10 @@ int main() {
 
                 setMensagem(novaMensagem1, r4);
 
-
-
+            case 9:
+                updateLedBattery(r0, r3);
+                break;
+            
             default:
                 break;
             }

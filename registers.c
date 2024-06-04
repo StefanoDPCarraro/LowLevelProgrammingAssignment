@@ -10,7 +10,7 @@
 void clrscr()
 {
     int result = system("@cls||clear");
-    if(result != 0)
+    if (result != 0)
     {
         printf("Erro ao limpar a tela\n");
     }
@@ -253,7 +253,7 @@ char *getBatteryLevel(unsigned short *r3)
     default:
         return "ERRO";
     }
-}   
+}
 
 int getVezesMensagem(unsigned short *r3)
 {
@@ -285,9 +285,9 @@ char *getMensagem(unsigned short *r4)
 
 void toggleMensagem(char *novaMensagem1, char *novaMensagem2, unsigned short *r4)
 {
-    if (strcmp(novaMensagem1, getMensagem(r4)) == 0) 
+    if (strcmp(novaMensagem1, getMensagem(r4)) == 0)
     {
-        if (novaMensagem2[0] != '\0') 
+        if (novaMensagem2[0] != '\0')
         {
             setMensagem(novaMensagem2, r4);
         }
@@ -296,8 +296,28 @@ void toggleMensagem(char *novaMensagem1, char *novaMensagem2, unsigned short *r4
             printf("\nNão há uma segunda mensagem(número de caracteres insuficiente)\n");
         }
     }
-    else 
+    else
     {
         setMensagem(novaMensagem1, r4);
+    }
+}
+
+void updateLedBattery(unsigned short *r0, unsigned short *r3)
+{
+    if (strcmp(getBatteryLevel(r3), "Crítico") == 0) //STRCMP retorna 0 quando strings iguais
+    {
+        setLedStatus(r0, 4);
+    }
+    else if (strcmp(getBatteryLevel(r3), "Baixo") == 0)
+    {
+        setLedStatus(r0, 6);
+    }
+    else if (strcmp(getBatteryLevel(r3), "Médio") == 0)
+    {
+        setLedStatus(r0, 2);
+    }
+    else if (strcmp(getBatteryLevel(r3), "Alto") == 0)
+    {
+        setLedStatus(r0, 2);
     }
 }
