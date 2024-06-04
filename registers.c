@@ -158,5 +158,3 @@ char* getLedOperacao(unsigned short *r0){
     if( *r0 & (1 << 9) ) return "Ligado";
     return "Desligado";
 }
-
-char* get
